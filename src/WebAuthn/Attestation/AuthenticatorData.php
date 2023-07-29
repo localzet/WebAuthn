@@ -397,11 +397,11 @@ class AuthenticatorData
      * Извлечь информацию ES256 из COSE
      *
      * @param stdClass $credPKey
-     * @param stdClass $enc
+     * @param array $enc
      *
      * @throws Exception
      */
-    private function _readCredentialPublicKeyES256(stdClass &$credPKey, stdClass $enc): void
+    private function _readCredentialPublicKeyES256(stdClass &$credPKey, array $enc): void
     {
         $credPKey->crv = $enc[self::$_COSE_CRV];
         $credPKey->x = $enc[self::$_COSE_X] instanceof ByteBuffer ? $enc[self::$_COSE_X]->getBinaryString() : null;
@@ -433,11 +433,11 @@ class AuthenticatorData
      * Извлечь информацию RS256 из COSE
      *
      * @param stdClass $credPKey
-     * @param stdClass $enc
+     * @param array $enc
      *
      * @throws Exception
      */
-    private function _readCredentialPublicKeyRS256(stdClass &$credPKey, stdClass $enc): void
+    private function _readCredentialPublicKeyRS256(stdClass &$credPKey, array $enc): void
     {
         $credPKey->n = $enc[self::$_COSE_N] instanceof ByteBuffer ? $enc[self::$_COSE_N]->getBinaryString() : null;
         $credPKey->e = $enc[self::$_COSE_E] instanceof ByteBuffer ? $enc[self::$_COSE_E]->getBinaryString() : null;
