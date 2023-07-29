@@ -583,7 +583,7 @@ class WebAuthn
      */
     private function _createChallenge(int $length = 32): ByteBuffer|string
     {
-        if (!$this->_challenge) {
+        if (!isset($this->_challenge)) {
             $this->_challenge = ByteBuffer::randomBuffer($length);
         }
         return $this->_challenge;
