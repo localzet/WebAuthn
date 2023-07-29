@@ -100,7 +100,7 @@ abstract class FormatBase
 
     /**
      * returns the key X.509 certificate in PEM format
-     * @return string
+     * @return string|null
      */
     public function getCertificatePem(): ?string
     {
@@ -112,7 +112,6 @@ abstract class FormatBase
      * checks validity of the signature
      * @param string $clientDataHash
      * @return bool
-     * @throws Exception
      */
     public function validateAttestation(string $clientDataHash): bool
     {

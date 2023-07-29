@@ -188,9 +188,9 @@ class AttestationObject
 
     /**
      * Возвращает ключ сертификата в формате PEM
-     * @return string
+     * @return string|null
      */
-    public function getCertificatePem(): string
+    public function getCertificatePem(): ?string
     {
         return $this->_attestationFormat->getCertificatePem();
     }
