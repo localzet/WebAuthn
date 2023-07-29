@@ -254,7 +254,7 @@ class WebAuthn
                     'internal',
                     'ble', // Bluetooth Low Energy
                     'nfc', // Near Field Communication
-                     'usb'
+//                     'usb'
                 );
                 $args->publicKey->excludeCredentials[] = $tmp;
                 unset($tmp);
@@ -313,7 +313,7 @@ class WebAuthn
                     'internal',
                     'ble', // Bluetooth Low Energy
                     'nfc', // Near Field Communication
-                    'usb'
+//                    'usb'
                 );
 
                 $tmp->type = 'public-key';
