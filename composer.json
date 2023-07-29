@@ -1,0 +1,30 @@
+{
+  "name": "localzet/webauthn",
+  "description": "Localzet WebAuthn library",
+  "type": "library",
+  "keywords": [
+    "localzet",
+    "WebAuthn"
+  ],
+  "license": "AGPL-3.0-or-later",
+  "authors": [
+    {
+      "role": "Developer",
+      "name": "Ivan Zorin",
+      "email": "creator@localzet.com",
+      "homepage": "https://github.com/localzet"
+    }
+  ],
+  "support": {
+    "email": "support@localzet.com",
+    "source": "https://github.com/localzet/WebAuthn"
+  },
+  "autoload": {
+    "psr-4": {
+      "localzet\\": "src"
+    }
+  },
+  "require": {
+    "php": "^8.2"
+  }
+}
