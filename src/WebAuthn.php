@@ -70,9 +70,9 @@ class WebAuthn
      */
     private ByteBuffer $_challenge;
     /**
-     * @var int
+     * @var int|null
      */
-    private int $_signatureCounter;
+    private ?int $_signatureCounter = null;
     /**
      * @var
      */
