@@ -249,7 +249,13 @@ class WebAuthn
                 $tmp = new stdClass();
                 $tmp->id = $id instanceof ByteBuffer ? $id : new ByteBuffer($id);  // binary
                 $tmp->type = 'public-key';
-                $tmp->transports = array('usb', 'nfc', 'ble', 'hybrid', 'internal');
+                $tmp->transports = array(
+                    'hybrid',
+                    'internal',
+                    'ble', // Bluetooth Low Energy
+                    'nfc', // Near Field Communication
+                     'usb'
+                );
                 $args->publicKey->excludeCredentials[] = $tmp;
                 unset($tmp);
             }
@@ -302,7 +308,13 @@ class WebAuthn
                 $id = base64_decode($id);
                 $tmp = new stdClass();
                 $tmp->id = $id instanceof ByteBuffer ? $id : new ByteBuffer($id);  // binary
-                $tmp->transports = array('usb', 'nfc', 'ble', 'hybrid', 'internal');
+                $tmp->transports = array(
+                    'hybrid',
+                    'internal',
+                    'ble', // Bluetooth Low Energy
+                    'nfc', // Near Field Communication
+                    'usb'
+                );
 
                 $tmp->type = 'public-key';
                 $args->publicKey->allowCredentials[] = $tmp;
