@@ -249,7 +249,7 @@ class WebAuthn
             foreach ($excludeCredentialIds as $id) {
                 $id = base64_decode($id);
                 $tmp = new stdClass();
-                $tmp->id = $id instanceof ByteBuffer ? $id : new ByteBuffer($id);  // binary
+                $tmp->id = new ByteBuffer($id);  // binary
                 $tmp->type = 'public-key';
                 $tmp->transports = array(
                     'hybrid',
@@ -309,7 +309,7 @@ class WebAuthn
             foreach ($allowCredentials as $id) {
                 $id = base64_decode($id);
                 $tmp = new stdClass();
-                $tmp->id = $id instanceof ByteBuffer ? $id : new ByteBuffer($id);  // binary
+                $tmp->id = new ByteBuffer($id);  // binary
                 $tmp->transports = array(
                     'hybrid',
                     'internal',

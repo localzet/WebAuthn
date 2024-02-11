@@ -27,7 +27,6 @@
 namespace localzet\WebAuthn\Attestation\Format;
 
 use localzet\WebAuthn\Attestation\AuthenticatorData;
-use localzet\WebAuthn\Exception;
 
 /**
  *
@@ -69,7 +68,6 @@ class None extends FormatBase
      * Format 'none' does not contain any ca, so always false.
      * @param array $rootCas
      * @return boolean
-     * @throws Exception
      */
     public function validateRootCertificate(array $rootCas): bool
     {

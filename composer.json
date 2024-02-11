@@ -26,6 +26,10 @@
   },
   "require": {
     "php": "^8.2",
-    "ext-openssl": "*"
+    "ext-openssl": "*",
+    "ext-mbstring": "*"
+  },
+  "suggest": {
+    "ext-curl": "For downloads root certificates from FIDO Alliance Metadata Service (MDS)"
   }
 }

@@ -270,7 +270,6 @@ class AuthenticatorData
      * Возвращает ключ EC2 в кодировке DER
      *
      * @return string
-     * @throws Exception
      */
     private function _getEc2Der(): string
     {

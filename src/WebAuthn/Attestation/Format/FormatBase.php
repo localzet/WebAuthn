@@ -27,7 +27,6 @@
 namespace localzet\WebAuthn\Attestation\Format;
 
 use localzet\WebAuthn\Attestation\AuthenticatorData;
-use localzet\WebAuthn\Exception;
 use stdClass;
 use function base64_encode;
 use function base_convert;
@@ -125,7 +124,6 @@ abstract class FormatBase
      * validates the certificate against root certificates
      * @param array $rootCas
      * @return boolean
-     * @throws Exception
      */
     public function validateRootCertificate(array $rootCas): bool
     {
