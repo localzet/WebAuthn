@@ -26,12 +26,8 @@
   ],
   "support": {
     "email": "support@localzet.com",
+    "issues": "https://github.com/localzet/WebAuthn/issues",
     "source": "https://github.com/localzet/WebAuthn"
-  },
-  "autoload": {
-    "psr-4": {
-      "localzet\\": "src"
-    }
   },
   "require": {
     "php": "^8.2",
@@ -40,5 +36,10 @@
   },
   "suggest": {
     "ext-curl": "For downloading root certificates from FIDO Alliance Metadata Service (MDS)"
+  },
+  "autoload": {
+    "psr-4": {
+      "localzet\\": "src"
+    }
   }
 }
