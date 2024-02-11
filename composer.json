@@ -1,10 +1,19 @@
 {
   "name": "localzet/webauthn",
-  "description": "Localzet WebAuthn library",
+  "description": "Localzet WebAuthn is a high-performance PHP library designed for working with WebAuthn, a web authentication standard developed by W3C. The library provides secure and reliable user authentication using modern cryptographic methods. It supports PSR-4 autoloading and requires PHP version 8.2 or higher, as well as the openssl and mbstring extensions.",
   "type": "library",
   "keywords": [
+    "WebAuthn",
+    "PHP",
+    "library",
+    "authentication",
+    "security",
     "localzet",
-    "WebAuthn"
+    "AGPL",
+    "openssl",
+    "mbstring",
+    "PSR-4",
+    "cryptography"
   ],
   "license": "AGPL-3.0-or-later",
   "authors": [
@@ -30,6 +39,6 @@
     "ext-mbstring": "*"
   },
   "suggest": {
-    "ext-curl": "For downloads root certificates from FIDO Alliance Metadata Service (MDS)"
+    "ext-curl": "For downloading root certificates from FIDO Alliance Metadata Service (MDS)"
   }
 }
