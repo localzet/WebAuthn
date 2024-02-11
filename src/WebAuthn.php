@@ -111,7 +111,7 @@ class WebAuthn
 
         // Проверки OpenSSL и SHA256
         if (!function_exists('\openssl_open')) {
-            throw new Exception('Модуль OpenSSL не установлен');;
+            throw new Exception('Модуль OpenSSL не установлен');
         }
 
         if (!in_array('SHA256', array_map('\strtoupper', openssl_get_md_methods()))) {
