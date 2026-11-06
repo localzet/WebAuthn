@@ -103,7 +103,7 @@ class WebAuthn
         $this->_rpId = $domain;
         $this->_rpIdHash = hash('sha256', $this->_rpId, true);
 
-        $this->queryFidoMetaDataService(__DIR__ . '/WebAuthn/Certificates/');
+        // Trusted certificate updates must be performed offline after signature validation.
         $this->addRootCertificates(__DIR__ . '/WebAuthn/Certificates/');
 
         ByteBuffer::$useBase64UrlEncoding = $useBase64UrlEncoding;
@@ -119,8 +119,8 @@ class WebAuthn
         }
 
         // По умолчанию: принимать все поддерживаемые форматы
-        if (!is_array($allowedFormats)) {
-            $allowedFormats = $allowedFormats ?? $supportedFormats;
+        if ($allowedFormats === []) {
+            $allowedFormats = $supportedFormats;
         }
         $this->_formats = $allowedFormats;
 
@@ -586,7 +586,13 @@ class WebAuthn
 
         // Идентификатор RP должен совпадать с действующим доменом источника 
         // или суффиксом регистрируемого домена источника.
-        return preg_match('/' . preg_quote($this->_rpId) . '$/i', $host) === 1;
+        if (!is_string($host)) {
+            return false;
+        }
+
+        $host = strtolower(rtrim($host, '.'));
+        $rpId = strtolower(rtrim($this->_rpId, '.'));
+        return $host === $rpId || str_ends_with($host, '.' . $rpId);
     }
 
     /**
@@ -597,9 +603,7 @@ class WebAuthn
      */
     private function _createChallenge(int $length = 32): ByteBuffer|string
     {
-        if (!isset($this->_challenge)) {
-            $this->_challenge = ByteBuffer::randomBuffer($length);
-        }
+        $this->_challenge = ByteBuffer::randomBuffer($length);
         return $this->_challenge;
     }
 }
