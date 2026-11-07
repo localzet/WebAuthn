@@ -87,89 +87,11 @@ trait Certs
      */
     public function queryFidoMetaDataService(string $certFolder, bool $deleteCerts = true): int
     {
-        $certFolder = rtrim(realpath($certFolder), '\\/');
-        if (!is_dir($certFolder)) {
-            throw new Exception('Недопустимый путь к папке для запроса службы метаданных FIDO Alliance.');
-        }
+        // FIDO MDS is a signed JWT. TLS alone does not establish trust in its
+        // attestation roots. Never import unverified payload data into the CA store.
+        throw new Exception(
+            'MDS imports are disabled until JWT signatures and trust anchors are verified.'
+        );
 
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_TIMEOUT, 30);
-        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 30);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($curl, CURLOPT_MAXREDIRS, 5);
-        curl_setopt($curl, CURLINFO_HEADER_OUT, true);
-        curl_setopt($curl, CURLOPT_ENCODING, 'identity');
-        curl_setopt($curl, CURLOPT_USERAGENT, 'Localzet FIDO CA');
-        curl_setopt($curl, CURLOPT_URL, 'https://mds.fidoalliance.org');
-        curl_setopt($curl, CURLOPT_HTTPHEADER, [
-            'Accept: */*',
-            'Content-Type: application/json',
-            'Cache-Control: max-age=0',
-            'Connection: keep-alive',
-            'Expect: ',
-            'Pragma: ',
-        ]);
-        $raw = curl_exec($curl);
-
-        if (!is_string($raw)) {
-            throw new Exception('Не удалось запросить службу метаданных FIDO Alliance.');
-        }
-
-        $jwt = explode('.', $raw);
-        if (count($jwt) !== 3) {
-            throw new Exception('Недействительный JWT из службы метаданных FIDO Alliance');
-        }
-
-        if ($deleteCerts) {
-            foreach (scandir($certFolder) as $ca) {
-                if (str_ends_with($ca, '.pem')) {
-                    if (unlink($certFolder . DIRECTORY_SEPARATOR . $ca) === false) {
-                        throw new Exception('Не удается удалить сертификаты в папке для службы метаданных FIDO Alliance');
-                    }
-                }
-            }
-        }
-
-        list($header, $payload, $hash) = $jwt;
-        $payload = ByteBuffer::fromBase64Url($payload)->getJson();
-
-        $count = 0;
-        if (is_object($payload) && property_exists($payload, 'entries') && is_array($payload->entries)) {
-            foreach ($payload->entries as $entry) {
-                if (is_object($entry) && property_exists($entry, 'metadataStatement') && is_object($entry->metadataStatement)) {
-                    $description = $entry->metadataStatement->description ?? null;
-                    $attestationRootCertificates = $entry->metadataStatement->attestationRootCertificates ?? null;
-
-                    if ($description && $attestationRootCertificates) {
-
-                        // Название файла
-                        $certFilename = preg_replace('/[^a-z0-9]/i', '_', $description);
-                        $certFilename = trim(preg_replace('/\_{2,}/i', '_', $certFilename), '_') . '.pem';
-                        $certFilename = strtolower($certFilename);
-
-                        // Контент
-                        $certContent = $description . "\n";
-                        $certContent .= str_repeat('-', mb_strlen($description)) . "\n";
-
-                        foreach ($attestationRootCertificates as $attestationRootCertificate) {
-                            $attestationRootCertificate = str_replace(["\n", "\r", ' '], '', trim($attestationRootCertificate));
-                            $count++;
-                            $certContent .= "\n-----BEGIN CERTIFICATE-----\n";
-                            $certContent .= chunk_split($attestationRootCertificate, 64, "\n");
-                            $certContent .= "-----END CERTIFICATE-----\n";
-                        }
-
-                        if (file_put_contents($certFolder . DIRECTORY_SEPARATOR . $certFilename, $certContent) === false) {
-                            throw new Exception('Не удалось сохранить сертификат из службы метаданных FIDO Alliance');
-                        }
-                    }
-                }
-            }
-        }
-
-        return $count;
     }
 }
